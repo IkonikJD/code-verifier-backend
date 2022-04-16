@@ -5,13 +5,13 @@
 
 import express, { Request, Response } from 'express'
 import helloRouter from './HelloRouter'
-import { LogInfo } from '@utils/logger'
+import { LogInfo } from '../utils/logger'
 
 // Server instance
-let server = express()
+const server = express()
 
 // Router instance
-let rootRouter = express.Router()
+const rootRouter = express.Router()
 
 // Activate for requests to http://localhost:8000/api
 
