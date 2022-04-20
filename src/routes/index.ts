@@ -6,6 +6,8 @@
 import express, { Request, Response } from 'express'
 import helloRouter from './HelloRouter'
 import { LogInfo } from '../utils/logger'
+import { serve } from 'swagger-ui-express'
+import usersRouter from './UserRouter'
 
 // Server instance
 const server = express()
@@ -27,6 +29,7 @@ server.use('/', rootRouter) // http://localhost:8000/api/
 server.use('/hello', helloRouter) // http://localhost:8000/api/hello --> HelloRouter
 
 // Add more routes to the app
+server.use('/users', usersRouter) // http://localhost:8000/api/users --> UserRouter
 
 // Export server
 export default server
