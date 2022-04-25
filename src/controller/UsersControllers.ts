@@ -1,6 +1,6 @@
 import { Delete, Get, Post, Put, Query, Route, Tags } from 'tsoa'
 import { IUserController } from './interfaces'
-import { LogSuccess, LogError } from '../utils/logger'
+import { LogSuccess, LogError, LogWarning } from '../utils/logger'
 
 // ORM - Users Collections
 import { deleteUserByID, getAllUsers, getUserByID, createUser, updateUserById } from '../domain/orm/User.orm'
@@ -20,9 +20,11 @@ export class UserController implements IUserController {
     if (id) {
       LogSuccess(`[/api/users] Get User by ID: ${id}`)
       response = await getUserByID(id)
+
+      // Remove the password
+      response.password = ''
     } else {
       LogSuccess('[/api/users] Get All Users Request')
-
       response = await getAllUsers()
     }
 
@@ -56,20 +58,6 @@ export class UserController implements IUserController {
     return response
   }
 
-  @Post('/')
-  public async createUser (user: any): Promise<any> {
-    let response: any = ''
-
-    await createUser(user).then((r) => {
-      LogSuccess(`[/api/users] Create User: ${user}`)
-      response = {
-        mesagge: `User created successfully: ${user.name}`
-      }
-    })
-
-    return response
-  }
-
   @Put('/')
   public async updateUser (@Query() id: string, user: any): Promise<any> {
     let response: any = ''
@@ -82,8 +70,7 @@ export class UserController implements IUserController {
         }
       })
     } else {
-      LogSuccess('[/api/users] Update User Request WITHOUT ID')
-
+      LogWarning('[/api/users] Update User Request WITHOUT ID')
       response = {
         message: 'Please, provide an ID to update an existing user'
       }

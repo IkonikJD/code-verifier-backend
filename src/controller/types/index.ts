@@ -12,3 +12,11 @@ export type ErrorResponse = {
   error: string,
   message: string
 }
+
+/**
+ * Auth JSON responde for Controllers
+ */
+export type AuthResponse = {
+  token: string,
+  message: string
+}
